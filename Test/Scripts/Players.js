@@ -3,6 +3,8 @@ class Players {
         this.allPlayers = [];
         this.initializeAllPlayers();
     }
+
+    // This method initializes all the players
     initializeAllPlayers() {
         const factions = ['AWS','HK','CALC','TEST','BA','SCRUM','DEVOPS','TL','ARCH'];
         const allFactionMembers = {

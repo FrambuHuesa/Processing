@@ -1,10 +1,13 @@
 class Grid {
   constructor(width, height) {
+    textSize(12);
     this.resolution = 125;
     this.cols = (width - 3) / this.resolution;
     this.rows = (height - 3) / this.resolution;
     this.gridArray = Grid.make2DEmptyGrid();
   }
+
+  // This initializes the empty grid
   static make2DEmptyGrid() {
     const gridArray = [];
     let emptyGrid = new Array(this.cols);
@@ -22,36 +25,48 @@ class Grid {
       }
       return gridArray;
   }
-  // Changes the color of the cell dependig if it's alive or not
-  fillAndClean(Players) {
+
+  /**
+   * Changes the color of the cell dependig if it's alive or not
+   * @param {Array} allPlayers
+   */
+  fillAndClean(allPlayers) {
     const resolution = this.resolution;
     let playerIteration = 0;
     for (let i = 0; i < this.cols; i++) {
         for (let j = 0; j < this.rows; j++) {
             let x = i * resolution;
             let y = j * resolution;
-            const Player = Players[playerIteration];
-            switch (Player.status) {
+            const player = allPlayers[playerIteration];
+            switch (player.status) {
               case 'Alive':
-                this.fillSquares('#94ef45', x, y, resolution, Player.name);
+                this.fillSquares('#94ef45', x, y, resolution, player.name);
                 break;
               case 'Dead':
-                this.fillSquares('grey', x, y, resolution, Player.name);
+                this.fillSquares('grey', x, y, resolution, player.name);
                 break;
               case 'Sick':
-                this.fillSquares('#c3d16a', x, y, resolution, Player.name);
+                this.fillSquares('#c3d16a', x, y, resolution, player.name);
                 break;
               case 'Hurt':
-                this.fillSquares('#f4bc42', x, y, resolution, Player.name);
+                this.fillSquares('#f4bc42', x, y, resolution, player.name);
                 break;
               case 'BadlyHurt':
-                this.fillSquares('#ea3e17', x, y, resolution, Player.name);
+                this.fillSquares('#ea3e17', x, y, resolution, player.name);
                 break;
             }
             playerIteration++;
         }
     }
   }
+
+  /** This method fills the blocks with the names of the players
+   * @param {string} color
+   * @param {int} x
+   * @param {int} y
+   * @param {int} resolution
+   * @param {string} name
+   */
   fillSquares(color, x, y, resolution, name){
     stroke(0);
     fill(color);
