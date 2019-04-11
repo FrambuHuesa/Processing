@@ -14,9 +14,9 @@ let message = [];
 */
 function setup() {
     frameRate(1);
-    createCanvas(1528, 503);
-    grid = new Grid(width-400, height);
-    logWriter = new LogWriter(1140,50);
+    createCanvas(1128, 903);
+    grid = new Grid(width, height - 400);
+    logWriter = new LogWriter(50,525);
     const players = new Players();
     allPlayers = players.allPlayers
     grid.fillAndClean(allPlayers);
@@ -31,7 +31,7 @@ function setup() {
 function draw() {
     if (counter === nextStop) {
         message = logic.newIteration();
-        nextStop += Math.floor(Math.random()*40);
+        nextStop += Logic.getRandomNumber(5,15);
         background(255); // Day // Night background(100);
         updatePlayers();
     }
