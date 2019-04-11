@@ -31,6 +31,7 @@ class Grid {
    * @param {Array} allPlayers
    */
   fillAndClean(allPlayers) {
+    background(255); // Day // Night background(100);
     const resolution = this.resolution;
     let playerIteration = 0;
     for (let i = 0; i < this.cols; i++) {

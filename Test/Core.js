@@ -30,24 +30,11 @@ function setup() {
 */
 function draw() {
     if (counter === nextStop) {
-        message = logic.newIteration();
+        ({ message, allPlayers } = logic.newIteration(allPlayers));
         nextStop += Logic.getRandomNumber(5,15);
-        background(255); // Day // Night background(100);
-        updatePlayers();
+        grid.fillAndClean(allPlayers);
     }
     logWriter.MessageBoardUpdate(message);
     counter++;
     console.log('counter: ' + counter + ' nextStop: ' + nextStop);
-}
-
-/*
-* Updates the players visual information (like step function)
-*/
-function updatePlayers() {
-    for (let i = 0; i < allPlayers.length; i++) {
-        const currentPlayer = allPlayers[i];
-        const statusArray = currentPlayer.statusArray;
-        currentPlayer.changeStatus(statusArray[0]);
-        grid.fillAndClean(allPlayers);
-    }
 }

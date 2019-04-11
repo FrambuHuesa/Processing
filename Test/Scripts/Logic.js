@@ -8,40 +8,84 @@ class Logic {
             this.alivePlayersIndex[i] = i;
             this.currentlyInactive[i] = i;
         }
-        
     }
 
-    newIteration() { // up to 10 actions
+    newIteration() { // up to 4 actions
         console.log('test');
         this.currentlyInactive = this.alivePlayersIndex.slice();
-        const action = ' talk to ';
+
         const messageBuilder = new MessageBuilder();
         const message = [];
         const iterations = Logic.getRandomNumber(1, 4);
         for (let i = 0; i < iterations; i++) {
-            console.log('messageNumber: ' + i);
+            const typeOfAction = Logic.getRandomNumber(0,4);
+            const givers = this.playersSelection(4);
+            const receivers = this.playersSelection(4);
             message[i] = messageBuilder.compose(
-                this.playersSelection(), 
-                this.playersSelection(),
-                action);
+                givers[1], 
+                receivers[1],
+                this.actionSelection(typeOfAction, receivers[0])
+            );
         }
-        return message;
+        return { message, allPlayers };
     }
 
-    playersSelection(){
+    playersSelection(numberOfPlayers){
         const players = [];
-        const iterations = Logic.getRandomNumber(1, 4)
+        const playersNames = [];
+        const iterations = Logic.getRandomNumber(1, numberOfPlayers)
         for (let i = 0; i < iterations; i++) {
-            console.log('actor: ' + i);
             const playerIndex = this.getPlayerIndex();
-            players[i] = allPlayers[playerIndex].name;
+            players[i] = allPlayers[playerIndex];
+            playersNames[i] = players[i].name;
         }
-        return players;
+        return [players, playersNames];
     }
+
+    actionSelection(typeOfAction, receivers){
+        let action;
+        switch (typeOfAction) {
+            case 0:
+                action = ' Heal ';
+                for (let i = 0; i < receivers.length; i++) {
+                    if(receivers[i].status !== 'Dead'){
+                        receivers[i].changeStatus('Alive');
+                    }
+                }
+                break;
+            case 1:
+                action = ' kill '
+                for (let i = 0; i < receivers.length; i++) {
+                    receivers[i].changeStatus('Dead');
+                }
+                break;
+            case 2:
+                action = ' hurt '
+                for (let i = 0; i < receivers.length; i++) {
+                    receivers[i].changeStatus('Hurt');
+                }
+                break;
+            case 3:
+                action = ' badly hurt '
+                for (let i = 0; i < receivers.length; i++) {
+                    receivers[i].changeStatus('BadlyHurt');
+                }
+                break;
+            case 4:
+                action = ' intoxicate '
+                for (let i = 0; i < receivers.length; i++) {
+                    receivers[i].changeStatus('Sick');
+                }
+                break;
+            default:
+                break;
+        }
+        return action;
+    }
+
     getPlayerIndex(){
         const inactiveIndex = Logic.getRandomNumber(0, this.currentlyInactive.length - 1);
         const nextPlayerIndex = this.currentlyInactive[inactiveIndex];
-        console.log('selectedPlayer: ' + nextPlayerIndex);
         if(nextPlayerIndex === undefined){
             return null;
         }
